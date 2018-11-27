@@ -1,19 +1,20 @@
-import React, { Component } from 'react';
-import CommentSection from '../CommentSection/CommentSection';
-import './PostContainer.css'
+import React, { Component } from "react";
+import CommentSection from "../CommentSection/CommentSection";
+import "./PostContainer.css";
 
-import Post from './Post';
- const PostContainer = props => {
-    return (
-        <div className='instagram-card'>
-             <div className='card-text'>
-                <div>
-                    {props.posts.map(p => 
-                    <Post key={p.imageUrl} post={p}/>)}
-                    {/* Here we send state data one by one to Post */}
-                </div>
-            </div>
+import Post from "./Post";
+const PostContainer = props => {
+  return (
+    <div className="instagram-card">
+      <div className="card-text">
+        <div>
+          {props.posts.map(p => (
+            <Post key={p.imageUrl} post={p} />
+          ))}
+          {/* Here we send state data one by one to Post */}
         </div>
-    )
-}
- export default PostContainer;
+      </div>
+    </div>
+  );
+};
+export default PostContainer;
