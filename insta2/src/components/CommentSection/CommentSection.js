@@ -15,7 +15,6 @@ class CommentSection extends React.Component {
   }
 
   handleChange = event => {
-    console.log("WHOOO I'm changing", event.target.value)
     this.setState({
         inputText: event.target.value
     })
@@ -36,7 +35,6 @@ class CommentSection extends React.Component {
 }
 
   render() {
-    console.log('comment section props =', this.state.comments)
     return (
       <div>
         <div className='text-icons'>
