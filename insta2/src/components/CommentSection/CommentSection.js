@@ -3,6 +3,7 @@ import "./CommentSection.css";
 import PropTypes from "prop-types";
 import Comment from "./Comment";
 import CommentInput from "./CommentInput";
+import moment from 'moment';
 
 class CommentSection extends React.Component {
   constructor(props) {
@@ -10,9 +11,25 @@ class CommentSection extends React.Component {
     this.state = {
       comments: props.comments,
             likes: props.likes,
-            inputText: ''
+            timestamp: props.timestamp,
+            inputText: '',
+            removed: false
     };
   }
+
+  componentDidMount() {
+    const id = this.props.postId
+    if (localStorage.getItem(id)) {
+        // If id exists, set the commments by that parsed array
+        this.setState({comments: JSON.parse(localStorage.getItem(id))})
+    } else {
+        // call setComments() 
+        this.setComments();
+    }
+  }
+ setComments = () => {
+    localStorage.setItem(this.props.postId, JSON.stringify(this.state.comments));
+}
 
   handleChange = event => {
     this.setState({
@@ -24,9 +41,13 @@ class CommentSection extends React.Component {
     this.setState({
         comments: [...this.state.comments,
         {text: this.state.inputText, 
-            username: "jrat2950"}],
+            username: "jrat2950",
+            removed: false}],
             inputText: ''
     })
+    setTimeout(() => {
+      this.setComments();
+  }, 500)
 }
  incrementLike = event => {
     this.setState({
@@ -34,7 +55,25 @@ class CommentSection extends React.Component {
     })
 }
 
+removeComment = text => {
+
+this.setState({
+  comments: this.state.comments.map(e => {
+      
+      if (e.text === text) {
+          console.log("remove content e =", e.text)
+          return {...e, removed: true}
+      }
+      else {
+          return e;
+      }
+  })
+})
+}
+
+
   render() {
+    // console.log("props.post.timestamp = ", typeof this.state.timestamp)
     return (
       <div>
         <div className='text-icons'>
@@ -45,8 +84,14 @@ class CommentSection extends React.Component {
                     {`${this.state.likes} likes`}
                 </div>
         {this.state.comments.map((c, i) => (
-          <Comment key={i} comment={c} />
-        ))}
+          <Comment 
+          key={i} 
+          comment={c} 
+          removeComment={this.removeComment}
+          removed={this.state.removed}
+          />))}
+          {/* <span>{moment(this.state.timestamp, 'MMMM Do YYYY HH:mm:ss a')}</span> */}
+          {/* <span>{moment().fromNow()}</span> */}
         <CommentInput 
                 addNewComment={this.addNewComment} 
                 handleChange={this.handleChange}
