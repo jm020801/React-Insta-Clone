@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
  const CommentInput = props => {
     return (
         <div className='comment-section'>
@@ -11,7 +12,7 @@ import React, { Component } from 'react';
                 onChange={props.handleChange}
                 />
             </form>
-            <i class="fas fa-ellipsis-h"></i>
+            <i className="fas fa-ellipsis-h"></i>
             </div>
     )
 }
